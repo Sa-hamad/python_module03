@@ -8,7 +8,7 @@ def inventory_system(inventory: dict[str,int]) -> None:
     inventory: dict[str, int] = {}
     valid = False
 
-    while not valid 
+    while not valid:
     for arg in sys.argv[1:]:
         if ":" not in arg:
             print(f"Error - invalid parameter '{arg}'")
