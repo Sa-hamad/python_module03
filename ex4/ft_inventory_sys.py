@@ -1,53 +1,85 @@
+#!/usr/bin/env python3
+
 import sys
 
-    
-def create_inventory(args: list[str]) -> None:
-    items: dict[str, int] = {}
-    keys: list[str] = []
+class InventoryInfo:
+    def __init__(self, args: list[str] = []): 
+        self.args = args
+        self.stuff, self.names = self.create_inventory()
+        self.total = sum(self.stuff.values())
+        # self.percents = self.percent()
 
-    for item in args:
-            
-            parts = item.split(":")
-            if len(parts) != 2:
-                print(f"Error - invalid paramater '{item}'")
-                continue
-            key = parts[0]
-            value = parts[1]
-            try:
-                value = int(value)
-            except ValueError as e:
-                print(f"Quantity error for 'key': {e}")
-                continue
-            if value < 0:
-                print("Error: negative value")
-                continue
 
-            if items.get(key) is not None:
-                print(f"Redundant item '{key}' - discarding")
-                continue
-            items[key] = value
-            keys.append(key)
-    return (items, keys)
+    def create_inventory(self) -> tuple[dict[str, int], list[str]]:
 
-#def calculate(inventory):
-    
+        stuff: dict[str, int] = {}
+        names: list[str] = []
 
-# loop through the dictionary
+        for item in self.args:
+                
+                parts = item.split(":")
+                if len(parts) != 2:
+                    print(f"Error - invalid paramater '{item}'")
+                    continue
+                key = parts[0]
+                value = parts[1]
+                try:
+                    int_value = int(value)
+                except ValueError as e:
+                    print(f"Quantity error for 'key': {e}")
+                    continue
+                if int_value < 0:
+                    print("Error: negative value")
+                    continue
+
+                if stuff.get(key) is not None:
+                    print(f"Redundant item '{key}' - discarding")
+                    continue
+                stuff[key] = int_value
+                names.append(key)
+        return (stuff, names)
+
+    def percent(self) -> float:
+        
+        for key in self.stuff.values():
+            result = (key / self.total) * 100
+            rnd_result = round(result, 1)
+            print(f"Item {key} represents {rnd_result}%")
+        return(0)
+        
+    def most_abundant(self) -> tuple[str, int]:
+
+        name = max(self.stuff)
+        value = max(self.stuff.values())
+        return (name, value)
+
+    def least_abundant(self) -> tuple[str, int]:
+
+        name = min(self.stuff)
+        value = min(self.stuff.values())
+        return (name, value)
+
    
 if __name__ == "__main__":
     
     print("=== Inventory System Analysis ===")
 
-    inventory, item_keys = create_inventory(sys.argv[1:])
-    total = sum(inventory.values())
-    number = len(inventory)
+    info = InventoryInfo(sys.argv[1:])
+    number = len(info.stuff)
+    max_n, max_v = info.most_abundant()
+    min_n, min_v = info.least_abundant()
 
-    print(f"Got inventory: {inventory}")
-    print(f"Item list: {item_keys}")
-    print(f"Total quantity of the {number} items: {total}")
+    print(f"Got inventory: {info.stuff}")
+    print(f"Item list: {info.names}")
+    print(f"Total quantity of the {number} items: {info.total}")
     
-    for key in item_keys:
-        print(f"Item sword represents {(inventory[key] / total) * 100}")
+    info.percent()
+    print(f"Item most abundant: {max_n} with quantity {max_v}")
+    print(f"Item least abundant: {min_n} with quantity {min_v}")
+
+    info.stuff.update({"magic_item": 1})
+    print(f"Updated inventory: {info.stuff}")
+
 
 
 
