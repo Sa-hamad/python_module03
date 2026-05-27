@@ -1,10 +1,11 @@
 import random
 
+
 class Players:
     def __init__(
         self,
-        draft_names: list[str] = ['Alice', 'bob', 'Charlie', 'dylan', 'Emma', 
-                                'Gregory', 'john', 'kevin', 'Liam']
+        draft_names: list[str] = ['Alice', 'bob', 'Charlie', 'dylan', 'Emma',
+                                  'Gregory', 'john', 'kevin', 'Liam']
     ):
         self.draft_names = draft_names
         self.capitalized_names = self.capitalize_all()
@@ -19,7 +20,7 @@ class Players:
     def capitalize_all(self) -> list[str]:
         capitalized = [name.capitalize() for name in self.draft_names]
         return (capitalized)
-    
+
     def cap_names(self) -> list[str]:
         cap_names = [name for name in self.draft_names if name[0].isupper()]
         return (cap_names)
@@ -40,10 +41,11 @@ class Players:
         return (total / count)
 
     def high_score(self) -> dict[str, int]:
-        
-        result = {key: score for key, score in self.score_dict.items() if score >= self.average}
 
-        return(result)
+        result = {key: score for key, score in self.score_dict.items()
+                  if score >= self.average}
+
+        return (result)
 
 
 if __name__ == "__main__":
@@ -63,10 +65,3 @@ if __name__ == "__main__":
     print(f"Score dict: {dictionary}")
     print(f"Score Average is {round(average_score, 2)}")
     print(f"High scores: {highscore}")
-
-
-
-
-    
-
-

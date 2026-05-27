@@ -16,7 +16,7 @@ def gather_list(
         generated_event: Generator[tuple[str, str], None, None],
         len: int) -> list[tuple[str, str]]:
     events = []
-    for _ in range(len + 1):
+    for _ in range(len):
         events.append(next(generated_event))
     return events
 
